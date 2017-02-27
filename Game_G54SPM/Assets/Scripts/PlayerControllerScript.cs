@@ -1,44 +1,46 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//Need this to see in inspector
+[System.Serializable]
+public class Boundary{
+	public float MinX, MaxX;
+}
+
 public class PlayerControllerScript : MonoBehaviour {
 
-    Rigidbody2D flyingSaucer;
+    Rigidbody spaceShip_Component;
     public GameObject bulletLaserSprite;
+	public Boundary boundary;
+	public float playerSpeed;
 
 	// Use this for initialization
 	void Start () {
-        //get flyingSaucer on the screen
-        flyingSaucer = GetComponent<Rigidbody2D>();
+        //get spaceShip on the screen
+		spaceShip_Component = GetComponent<Rigidbody>();
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
 
-        //If user press left or right keys, moves at speed of 250f, 0 for y as we don't want to move that way.
-        flyingSaucer.velocity = new Vector2(Input.GetAxis("Horizontal") * 10f, 0f);
+        //If user press left or right keys, moves at speed of 10f, 0 for y as we don't want to move that way.
+		float moveHorizontal = Input.GetAxis("Horizontal");
+		Vector3 move = new Vector3 (moveHorizontal, 0.0f, 0.0f);
+		spaceShip_Component.velocity = move * playerSpeed;
+			
+		//Boundary for player, change values in inspector (SET TO -6 and 6)
+		//We don't need Y or Z values as it's only going left / right
+		spaceShip_Component.position = new Vector3(
+			Mathf.Clamp (spaceShip_Component.position.x, boundary.MinX, boundary.MaxX), 
+			0.0f, 
+			0.0f
+		);
 
-        //if user left clicks or presses space, fire bullet
-        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown("space"))
-        {
-            // Creates bullet at position of flyingSaucerSprite
-            Instantiate(bulletLaserSprite, transform.position, Quaternion.identity);
-        }
-
-        /*Vector3 position = transform.position;
-        float screenRatio = (float)Screen.width / (float)Screen.height;
-		float widthOrtho = GameObject.Find ("Canvas").GetComponent<Canvas> ().worldCamera.orthographicSize * screenRatio -100;
-        // X axis
-        if (position.x + 1.6f >= widthOrtho)
-        {
-            //transform.position = new Vector2(widthOrtho - 1.6f, transform.position.y);
-			transform.position = new Vector3 (widthOrtho + 1.6f, transform.position.y, 0);
-        }
-        if (position.x -1.6f <= -widthOrtho)
-        {
-            //transform.position = new Vector2(-widthOrtho + 1.6f, transform.position.y);
-			transform.position = new Vector3 (-widthOrtho + 1.6f, transform.position.y, 0);
-        }*/
-        
+		/* //if user left clicks or presses space, fire bullet
+		if (Input.GetMouseButtonDown(0) || Input.GetKeyDown("space"))
+		{
+			// Creates bullet at position of flyingSaucerSprite
+			Instantiate(bulletLaserSprite, transform.position, Quaternion.identity);
+		}*/
 	}
 }
