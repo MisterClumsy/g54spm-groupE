@@ -22,7 +22,7 @@ public class PlayerControllerScript : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void FixedUpdate () {
+	void Update () {
 
         //If user press left or right keys, moves at speed of 10f, 0 for y as we don't want to move that way.
 		float moveHorizontal = Input.GetAxis("Horizontal");
@@ -36,13 +36,16 @@ public class PlayerControllerScript : MonoBehaviour {
 			0.0f, 
 			0.0f
 		);
+			
 
 		spaceShip_Component.rotation = Quaternion.Euler(0.0f, 0.0f, spaceShip_Component.velocity.x * playerTilt);
-		/* //if user left clicks or presses space, fire bullet
+
+		//if user left clicks or presses space, fire bullet
 		if (Input.GetMouseButtonDown(0) || Input.GetKeyDown("space"))
 		{
 			// Creates bullet at position of flyingSaucerSprite
 			Instantiate(bulletLaserSprite, transform.position, Quaternion.identity);
-		}*/
+		}
 	}
+
 }
