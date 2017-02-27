@@ -14,6 +14,8 @@ public class PlayerControllerScript : MonoBehaviour {
 	public Boundary boundary;
 	public float playerSpeed;
 	public float playerTilt;
+	private float bulletNextFire;
+	public float fireRate;
 
 	// Use this for initialization
 	void Start () {
@@ -40,10 +42,11 @@ public class PlayerControllerScript : MonoBehaviour {
 
 		spaceShip_Component.rotation = Quaternion.Euler(0.0f, 0.0f, spaceShip_Component.velocity.x * playerTilt);
 
-		//if user left clicks or presses space, fire bullet
-		if (Input.GetMouseButtonDown(0) || Input.GetKeyDown("space"))
+		//if user presses space, fire bullet only if the time set has been reached
+		if (Input.GetKeyDown("space") && Time.time > bulletNextFire)
 		{
-			// Creates bullet at position of flyingSaucerSprite
+			bulletNextFire = Time.time + fireRate;
+			// Creates bullet at position of spaceShip
 			Instantiate(bulletLaserSprite, transform.position, Quaternion.identity);
 		}
 	}

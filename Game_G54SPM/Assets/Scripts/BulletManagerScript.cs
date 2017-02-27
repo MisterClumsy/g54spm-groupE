@@ -6,6 +6,8 @@ using System.Collections;
 public class BulletManagerScript : MonoBehaviour {
 
     public float bulletSpeed;
+	public float bulletTimeSpeed;
+	public bool bulletFired;
     Rigidbody bulletSprite;
 
 	// Use this for initialization
@@ -14,19 +16,14 @@ public class BulletManagerScript : MonoBehaviour {
         bulletSprite = GetComponent<Rigidbody>();
         //How fast the bullet will go when the user presses fire
 		bulletSprite.velocity = new Vector3(0f, 0f, bulletSpeed);
+		//Make the bullet actually appear on screen as it's wrong way.
 		bulletSprite.rotation = Quaternion.Euler(90f, 0.0f, 0.0f);
 
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
 	}
 
     //unity method, if invsibale (OFF SCREEN) 
     void OnBecameInvisible() {
-        // Destroy the bullet (this is what ever script is attached too)
+        // Destroy the bullet
         Destroy(gameObject);
     } 
-
 }
