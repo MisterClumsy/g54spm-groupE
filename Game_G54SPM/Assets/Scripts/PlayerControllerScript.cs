@@ -13,6 +13,7 @@ public class PlayerControllerScript : MonoBehaviour {
     public GameObject bulletLaserSprite;
 	public Boundary boundary;
 	public float playerSpeed;
+	public float playerTilt;
 
 	// Use this for initialization
 	void Start () {
@@ -36,6 +37,7 @@ public class PlayerControllerScript : MonoBehaviour {
 			0.0f
 		);
 
+		spaceShip_Component.rotation = Quaternion.Euler(0.0f, 0.0f, spaceShip_Component.velocity.x * playerTilt);
 		/* //if user left clicks or presses space, fire bullet
 		if (Input.GetMouseButtonDown(0) || Input.GetKeyDown("space"))
 		{
